@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Form Validation</title>
+  <style>
+    .error {
+      color: red;
+    }
+  </style>
+</head>
+<body>
+
+  <h2>Form Validation</h2>
+
+  <form id="myForm">
+    <label for="namaPelanggan">Nama Pelanggan:</label>
+    <input type="text" id="namaPelanggan" name="namaPelanggan" required maxlength="30">
+    <span id="namaPelangganError" class="error"></span>
+    <br>
+
+    <label for="email">Email:</label>
+    <input type="email" id="email" name="email" required>
+    <span id="emailError" class="error"></span>
+    <br>
+
+    <label for="jamKeberangkatan">Jam Keberangkatan:</label>
+    <input type="text" id="jamKeberangkatan" name="jamKeberangkatan" required pattern="^([01]?[0-9]|2[0-3]):[0-5][0-9]$">
+    <span id="jamKeberangkatanError" class="error"></span>
+    <br>
+
+    <label for="tujuanKeberangkatan">Tujuan Keberangkatan:</label>
+    <input type="text" id="tujuanKeberangkatan" name="tujuanKeberangkatan" required>
+    <span id="tujuanKeberangkatanError" class="error"></span>
+    <br>
+
+    <label for="jumlahTiket">Jumlah Tiket:</label>
+    <input type="number" id="jumlahTiket" name="jumlahTiket" required min="1" max="10">
+    <span id="jumlahTiketError" class="error"></span>
+    <br>
+
+    <button type="button" onclick="validateForm()">Submit</button>
+  </form>
+
+  <div id="result"></div>
+
+  <script>
+    function validateForm() {
+      // Reset error messages
+      document.getElementById("namaPelangganError").innerText = "";
+      document.getElementById("emailError").innerText = "";
+      document.getElementById("jamKeberangkatanError").innerText = "";
+      document.getElementById("tujuanKeberangkatanError").innerText = "";
+      document.getElementById("jumlahTiketError").innerText = "";
+
+      // Get form values
+      var namaPelanggan = document.getElementById("namaPelanggan").value;
+      var email = document.getElementById("email").value;
+      var jamKeberangkatan = document.getElementById("jamKeberangkatan").value;
+      var tujuanKeberangkatan = document.getElementById("tujuanKeberangkatan").value;
+      var jumlahTiket = document.getElementById("jumlahTiket").value;
+
+      // Flag to check if the form is valid
+      var isValid = true;
+
+      // Validate Nama Pelanggan
+      if (namaPelanggan.length === 0 || namaPelanggan.length > 30) {
+        document.getElementById("namaPelangganError").innerText = "Nama Pelanggan harus diisi dan maksimal 30 karakter";
+        isValid = false;
+      }
+
+      // Validate Email
+      var emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailPattern.test(email)) {
+        document.getElementById("emailError").innerText = "Format Email tidak valid";
+        isValid = false;
+      }
+
+      // Validate Jam Keberangkatan
+      var jamPattern = /^([01]?[0-9]|2[0-3]):[0-5][0-9]$/;
+      if (!jamPattern.test(jamKeberangkatan)) {
+        document.getElementById("jamKeberangkatanError").innerText = "Format Jam Keberangkatan tidak valid";
+        isValid = false;
+      }
+
+      // Validate Tujuan Keberangkatan
+      if (tujuanKeberangkatan.length === 0) {
+        document.getElementById("tujuanKeberangkatanError").innerText = "Tujuan Keberangkatan harus diisi";
+        isValid = false;
+      }
+
+      // Validate Jumlah Tiket
+      if (jumlahTiket < 1 || jumlahTiket > 10) {
+        document.getElementById("jumlahTiketError").innerText = "Jumlah Tiket harus antara 1 dan 10";
+        isValid = false;
+      }
+
+      // Display result if form is valid
+      if (isValid) {
+        var resultMessage = "Data Form Valid:<br>";
+        resultMessage += "Nama Pelanggan: " + namaPelanggan + "<br>";
+        resultMessage += "Email: " + email + "<br>";
+        resultMessage += "Jam Keberangkatan: " + jamKeberangkatan + "<br>";
+        resultMessage += "Tujuan Keberangkatan: " + tujuanKeberangkatan + "<br>";
+        resultMessage += "Jumlah Tiket: " + jumlahTiket + "<br>";
+
+        document.getElementById("result").innerHTML = resultMessage;
+      }
+    }
+  </script>
+
+</body>
+</html>
